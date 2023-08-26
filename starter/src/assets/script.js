@@ -60,6 +60,111 @@
    Run the following command in terminal to run tests
    npm run test
 */
+// Create an array to hold product objects
+const products = [];
+
+// Create product objects
+const product1 = {
+  name: "Cherry",
+  price: 2.99,
+  quantity: 0,
+  productId: 1,
+  image: "/images/cherry.jpg"
+};
+
+const product2 = {
+  name: "Orange",
+  price: 1.49,
+  quantity: 0,
+  productId: 2,
+  image: "/images/orange.jpg"
+};
+
+const product3 = {
+  name: "Strawberry",
+  price: 3.29,
+  quantity: 0,
+  productId: 3,
+  image: "/images/strawberry.jpg"
+};
+
+// Add product objects to the products array
+products.push(product1, product2, product3);
+
+// Declare an empty array to hold cart items
+const cart = [];
+
+// Function to add a product to the cart
+function addProductToCart(productId) {
+  const product = products.find(item => item.productId === productId);
+
+  if (product) {
+    product.quantity++;
+    if (!cart.includes(product)) {
+      cart.push(product);
+    }
+  }
+}
+
+// Function to increase product quantity in the cart
+function increaseQuantity(productId) {
+  const product = products.find(item => item.productId === productId);
+
+  if (product) {
+    product.quantity++;
+  }
+}
+
+// Function to decrease product quantity in the cart
+function decreaseQuantity(productId) {
+  const product = products.find(item => item.productId === productId);
+
+  if (product) {
+    product.quantity--;
+    if (product.quantity === 0) {
+      const index = cart.indexOf(product);
+      if (index !== -1) {
+        cart.splice(index, 1);
+      }
+    }
+  }
+}
+
+// Function to remove a product from the cart
+function removeProductFromCart(productId) {
+  const product = products.find(item => item.productId === productId);
+
+  if (product) {
+    product.quantity = 0;
+    const index = cart.indexOf(product);
+    if (index !== -1) {
+      cart.splice(index, 1);
+    }
+  }
+}
+
+// Function to calculate the total cost of items in the cart
+function cartTotal() {
+  return cart.reduce((total, product) => total + product.price * product.quantity, 0);
+}
+
+// Function to empty the cart
+function emptyCart() {
+  cart.forEach(product => {
+    product.quantity = 0;
+  });
+  cart.length = 0;
+}
+
+// Function to process payment
+function pay(amount) {
+  // Assuming the amount is the total amount to pay
+  // If the amount is greater than the cart total, return the change
+  // If the amount is less than the cart total, return the remaining balance
+  return amount - cartTotal();
+}
+
+
 
 module.exports = {
    products,
